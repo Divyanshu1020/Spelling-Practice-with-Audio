@@ -58,6 +58,8 @@ export function GamePlay({
           value={gameState.input}
           onChange={handleInputChange}
           onKeyPress={(e) => handleKeyPress(e, speakWord)}
+          autoComplete="off"
+          autoCapitalize="off"
           className={`text-center text-lg ${
             gameState.showFeedback
               ? gameState.isCorrect

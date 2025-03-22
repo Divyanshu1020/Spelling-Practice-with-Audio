@@ -54,8 +54,8 @@ export function useGameState(wordsPerGame: number) {
       setGameState(prev => ({
         ...prev,
         isCorrect,
-        showFeedback: true,
-        score: prev.score + scoreChange,
+        showFeedback: gameState.isWordVisible ? false : true,
+        score: gameState.isWordVisible ? prev.score :  prev.score + scoreChange,
       }));
 
       setTimeout(() => {
@@ -67,7 +67,7 @@ export function useGameState(wordsPerGame: number) {
               ...prev,
               input: "",
               endTime: Date.now(),
-              correctWords: prev.correctWords + 1,
+              correctWords: gameState.isWordVisible ? prev.correctWords : prev.correctWords + 1,
               gameComplete: true,
               showFeedback: false,
               isWordVisible: false,
@@ -81,7 +81,7 @@ export function useGameState(wordsPerGame: number) {
               currentWordIndex: nextIndex,
               currentWord: nextWord,
               input: "",
-              correctWords: prev.correctWords + 1,
+              correctWords: gameState.isWordVisible ? prev.correctWords : prev.correctWords + 1,
               showFeedback: false,
               isWordVisible: false,
             }));
@@ -94,7 +94,7 @@ export function useGameState(wordsPerGame: number) {
           setGameState(prev => ({
             ...prev,
             input: "",
-            mistakes: prev.mistakes + 1,
+            mistakes: gameState.isWordVisible ? prev.mistakes : prev.mistakes + 1,
             showFeedback: false,
           }));
         }
@@ -103,7 +103,7 @@ export function useGameState(wordsPerGame: number) {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
+    const input = e.target.value.trim().toLowerCase();
     
     if (!gameState.startTime) {
       setGameState(prev => ({ ...prev, startTime: Date.now() }));
